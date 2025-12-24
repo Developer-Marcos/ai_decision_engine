@@ -1,7 +1,7 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from typing import Optional, Dict, Any
 
-def instanciar_llm(agent_name: str, *, temperature: float = 0.3, extra_metadata: Optional[Dict[str, Any]] = None):
+def instanciar_llm(modelo: str, agent_name: str, *, temperature: float = 0.3, extra_metadata: Optional[Dict[str, Any]] = None):
       metadata = {
             "agent": agent_name,
       }
@@ -10,7 +10,7 @@ def instanciar_llm(agent_name: str, *, temperature: float = 0.3, extra_metadata:
             metadata.update(extra_metadata)
       
       return ChatGoogleGenerativeAI(
-            model="gemini-2.5-flash-lite",
+            model=modelo,
             temperature=temperature,
             metadata=metadata,
       )
