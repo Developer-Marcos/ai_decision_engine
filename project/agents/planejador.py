@@ -9,7 +9,7 @@ class OutputPlanejador(BaseModel):
       querys_de_pesquisa: List[str]
 
 def node_planejador(state: AgentState):
-      llm = instanciar_llm(modelo="gemini-2.5-flash-lite", agent_name="planejador", temperature=0.2)
+      llm = instanciar_llm(modelo="gemini-2.5-flash", agent_name="planejador", temperature=0.2)
       llm_estruturada = llm.with_structured_output(OutputPlanejador)
 
       diretrizes = gerar_meta_prompt(state["problema"])

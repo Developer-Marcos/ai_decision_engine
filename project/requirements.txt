@@ -7,4 +7,5 @@ langsmith
 pydantic
 python-dotenv
 typing-extensions
+grandalf
 rich

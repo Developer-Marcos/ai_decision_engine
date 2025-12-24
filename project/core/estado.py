@@ -6,7 +6,7 @@ class AgentState(TypedDict):
       plano: List[str]
       querys_de_pesquisa: List[str]
       conteudo_pesquisado: Annotated[List[Dict], operator.add] 
-      numero_iteracao: int
+      numero_iteracao: Annotated[int, operator.add]
       feedback_critico: str
       aprovado: bool
       notas_viabilidade: Dict[str, Dict]
