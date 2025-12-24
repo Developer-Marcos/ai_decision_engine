@@ -52,3 +52,46 @@ def gerar_meta_prompt(problema: str) -> str:
       chain = prompt | llm | StrOutputParser()
 
       return chain.invoke({"problema": problema}) 
+
+def refinar_query(query: str) -> str:
+      frase = query.strip().lower()
+      llm = instanciar_llm(modelo="gemini-2.5-flash-lite", agent_name="meta_prompt_gerador", extra_metadata={"test": False, "step": "query_refinement"})
+
+      prompt = ChatPromptTemplate.from_template("""
+            <role>Você é um Especialista em Engenharia de Prompt e Refinamento de Consultas.</role>
+            
+            <task>
+            Sua tarefa é pegar a pergunta bruta de um usuário e transformá-la em uma consulta 
+            clara, objetiva e profissional para um motor de tomada de decisão.
+            </task>
+                                                
+            <examples>
+                  <example>
+                        <input>quero fzr saas enem vale?</input>
+                        <output>Vale a pena desenvolver um Software as a Service (SaaS) focado na correção automática de redações do ENEM utilizando inteligência artificial?</output>
+                  </example>
+                  <example>
+                        <input>abrir cafeteria no centro de sp compensa hj em dia?</input>
+                        <output>Qual é a viabilidade econômica atual para a abertura de uma cafeteria na região central de São Paulo, considerando custos fixos e concorrência local?</output>
+                  </example>
+                  <example>
+                        <input>comprar um tesla ou carro a gas?</input>
+                        <output>Análise comparativa de viabilidade financeira e operacional entre a aquisição de um veículo elétrico Tesla e um veículo movido a combustão interna.</output>
+                  </example>
+            </examples>                                    
+
+            <instructions>
+            - Mantenha a intenção original do usuário.
+            - Corrija erros gramaticais e termos técnicos se necessário.
+            - Se a pergunta for muito curta, expanda-a para que fique autoexplicativa.
+            - Retorne APENAS a consulta refinada.
+            </instructions>
+
+            <input_bruto>
+            {query_bruta}
+            </input_bruto>
+      """)
+
+      chain_refinamento = prompt | llm | StrOutputParser()
+
+      return chain_refinamento.invoke({"query_bruta": frase})
