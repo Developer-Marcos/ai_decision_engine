@@ -1,6 +1,7 @@
 from langgraph.graph import StateGraph, END
 from project.agents.planejador import node_planejador
 from project.agents.pesquisador import node_pesquisador
+from project.agents.gerador import node_gerador
 from project.core.estado import AgentState
 import base64
 
@@ -8,24 +9,27 @@ import base64
 def router_de_pesquisa(state: AgentState):
       if len(state.get("conteudo_pesquisado", [])) > 0 and state.get("numero_iteracao", 0) < 3:
             return "pesquisador"
-      return END
+      
+      return "gerador"
 
 def criar_grafo():
       grafo_esqueleto = StateGraph(AgentState)
 
       grafo_esqueleto.add_node("planejador", node_planejador)
       grafo_esqueleto.add_node("pesquisador", node_pesquisador)
+      grafo_esqueleto.add_node("gerador", node_gerador)
 
       grafo_esqueleto.set_entry_point("planejador")
 
       grafo_esqueleto.add_edge("planejador", "pesquisador")
+      grafo_esqueleto.add_edge("gerador", END)
 
       grafo_esqueleto.add_conditional_edges(
             "pesquisador",
             router_de_pesquisa,
             {
                   "pesquisador": "pesquisador",
-                  "__end__": END
+                  "gerador": "gerador"
             }
       )
 

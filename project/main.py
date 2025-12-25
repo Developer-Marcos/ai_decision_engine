@@ -1,6 +1,8 @@
 from project.utils.chains_auxiliares import refinar_query
 from project.config.config import load_env
 from project.core.grafo import criar_grafo
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="langchain_tavily")
 
 def main():
       load_env()

@@ -4,7 +4,7 @@ from project.core.estado import AgentState
 from langchain_tavily import TavilySearch
 
 def node_pesquisador(state: AgentState):
-      ferramenta_de_pesquisa = TavilySearch(max_results=3)
+      ferramenta_de_pesquisa = TavilySearch(max_results=2)
       ferramentas = [ferramenta_de_pesquisa]
 
       llm = instanciar_llm(modelo="gemini-2.5-flash", agent_name="pesquisador_ativo", temperature=0)
