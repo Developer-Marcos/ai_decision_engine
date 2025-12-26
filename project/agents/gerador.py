@@ -1,6 +1,6 @@
 from project.core.estado import AgentState
 from project.config.llm_client import instanciar_llm
-from langchain_core.messages import HumanMessage, ToolMessage
+from langchain_core.messages import HumanMessage
 from pydantic import BaseModel, Field
 from typing import List
 
@@ -18,7 +18,7 @@ class ScoreIdeia(BaseModel):
       veredito_final: str = Field(description="Resumo executivo recomendando ou não o investimento na ideia com os prós e contras")
 
 def node_gerador(state: AgentState):
-      llm = instanciar_llm(modelo="gemini-2.5-flash", agent_name="analista_de_viabilidade", temperature=0.1)
+      llm = instanciar_llm(modelo="gemini-2.5-flash", agent_name="gerador", temperature=0.1)
       llm_estruturada = llm.with_structured_output(ScoreIdeia)
 
       prompt = f"""

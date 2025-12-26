@@ -10,12 +10,17 @@ def node_pesquisador(state: AgentState):
       llm = instanciar_llm(modelo="gemini-2.5-flash", agent_name="pesquisador_ativo", temperature=0)
       llm_com_ferramentas = llm.bind_tools(ferramentas)
 
+      feedback = state.get("feedback_critico", "")
+      bloco_feedback = f"\n<feedback_da_ultima_analise>\n{feedback}\n</feedback_da_ultima_analise>" if feedback else ""
+
       prompt_sistema = f"""
             Você é um Pesquisador Especialista. 
             Seu objetivo é cumprir este plano de pesquisa: {state['plano']}
             Utilize as queries sugeridas como ponto de partida: {state['querys_de_pesquisa']}
+            {bloco_feedback}
             
             INSTRUÇÕES:
+            (Se houver um feedback acima, priorize resolver as falhas apontadas por ele.)
             1. Use a ferramenta Tavily para buscar dados factuais.
             2. Analise os resultados. Se a informação estiver incompleta para um tópico do plano, faça uma nova busca com termos diferentes.
             3. Só finalize quando tiver dados suficientes para o Gerador avaliar (Demanda, Técnico, Financeiro, Competição).
@@ -47,6 +52,6 @@ def node_pesquisador(state: AgentState):
                         "conteudo": resultado_bruto
                   })
 
-            return {"conteudo_pesquisado": novos_resultados, "numero_iteracao": 1}
+            return {"conteudo_pesquisado": novos_resultados, "numero_iteracao": 1, "feedback_critico": ""}
       
       return {"conteudo_pesquisado": [], "numero_iteracao": 0}

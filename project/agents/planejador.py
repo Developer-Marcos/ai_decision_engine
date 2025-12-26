@@ -14,20 +14,39 @@ def node_planejador(state: AgentState):
 
       diretrizes = gerar_meta_prompt(state["problema"])
 
+      feedback = state.get("feedback_critico", "")
+
+      contexto_de_ajuda = ""
+      if feedback:
+            contexto_de_ajuda = f"""
+                  <analise_rejeitada_anterior>
+                        {state.get('relatorio_final', 'Nenhuma análise gerada ainda.')}
+                  </analise_rejeitada_anterior>
+
+                  <feedback_do_critico>
+                  {feedback}
+                  </feedback_do_critico>
+                  
+                  INSTRUÇÃO DE LIMPEZA: Esqueça os dados brutos anteriores. Foque em criar queries 
+                  que busquem o que falta nesta análise acima, conforme as instruções do Crítico.
+            """
+
       prompt=f"""
             <role>Analista de Decisões Estratégicas</role>
             
             <context>
             O usuário quer decidir: {state['problema']}
             </context>
+
+            {contexto_de_ajuda}
             
             <dynamic_guidelines>
             {diretrizes}
             </dynamic_guidelines>
             
             <task>
-            Com base no contexto e nas diretrizes acima, crie o plano de tópicos do relatório 
-            e as queries de pesquisa para o Tavily.
+            Com base no contexto, nas diretrizes no feedback (se houver), crie o plano de tópicos 
+            e as novas queries de pesquisa para o Tavily que tragam dados mais profundos.
             </task>
       """
 
@@ -35,5 +54,6 @@ def node_planejador(state: AgentState):
       return {
             "plano": resposta.plano,
             "querys_de_pesquisa": resposta.querys_de_pesquisa,
-            "numero_iteracao": 1
+            "numero_iteracao": 1,
+            "feedback_critico": ""
       }

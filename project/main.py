@@ -1,13 +1,17 @@
+import warnings
+warnings.filterwarnings("ignore", message="Field name .* shadows an attribute in parent \"BaseTool\"")
+warnings.filterwarnings("ignore", category=UserWarning, module="langchain_tavily")
+
+
 from project.utils.chains_auxiliares import refinar_query
 from project.config.config import load_env
 from project.core.grafo import criar_grafo
-import warnings
-warnings.filterwarnings("ignore", category=UserWarning, module="langchain_tavily")
+
 
 def main():
       load_env()
 
-      pergunta_usuario = "Vale a pena fazer um saas pro enem?"
+      pergunta_usuario = "Vale a pena abrir uma padaria no suburbio do rio de janeiro?"
       query_refinada = refinar_query(query=pergunta_usuario)
 
       state_inicial = {
