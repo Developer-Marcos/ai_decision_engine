@@ -1,4 +1,5 @@
-from typing import Annotated, List, TypedDict, Dict
+from typing import Annotated, List, TypedDict, Dict, Union
+from project.utils.schema_refinador import RelatorioExecutivo
 import operator
 
 class AgentState(TypedDict):
@@ -14,7 +15,7 @@ class AgentState(TypedDict):
       aprovado: bool
       notas_viabilidade: Dict[str, Dict]
       percentual_final: float
-      relatorio_final: str
+      relatorio_final: Union[str, RelatorioExecutivo]
 
 
       

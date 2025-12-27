@@ -3,6 +3,7 @@ from project.agents.planejador import node_planejador
 from project.agents.pesquisador import node_pesquisador
 from project.agents.gerador import node_gerador
 from project.agents.critico import node_critico
+from project.agents.refinador import node_refinador
 from project.core.estado import AgentState
 import base64
 
@@ -25,10 +26,6 @@ def router_pos_critica(state: AgentState):
       
       return "refinador"
 
-def node_refinador_placeholder(state: AgentState):
-    print("[Refinador] Polindo o relatório final...")
-    return {"relatorio_final": state['relatorio_final'] + "\n\nRelatório revisado e aprovado pelo Crítico."}
-
 def criar_grafo():
       grafo_esqueleto = StateGraph(AgentState)
 
@@ -36,7 +33,7 @@ def criar_grafo():
       grafo_esqueleto.add_node("pesquisador", node_pesquisador)
       grafo_esqueleto.add_node("gerador", node_gerador)
       grafo_esqueleto.add_node("critico", node_critico)
-      grafo_esqueleto.add_node("refinador", node_refinador_placeholder)
+      grafo_esqueleto.add_node("refinador", node_refinador)
 
       grafo_esqueleto.set_entry_point("planejador")
 

@@ -44,6 +44,10 @@ def node_critico(state: AgentState):
                   - Se escolher este destino, use o campo 'instrucoes_de_correcao' para dizer ao Refinador como ele deve formatar este relatório (ex: 'Destaque a tabela de custos operacionais' ou 'Enfatize a análise da concorrência em Madureira').
             </logica_de_roteamento>
 
+            <dica_extra>
+                  Se o pesquisador falhar em trazer dados numéricos após 2 tentativas, mande para o planejador mudar a abordagem de busca.
+            </dica_extra>
+
             <instrucoes_de_ouro>
                   - Seja Específico: No campo 'instrucoes_de_correcao', se enviar para o Planejador, diga: "Adicione o tópico X ao plano". Se enviar para o Pesquisador, dê a query pronta.
                   - Rigor Amigável: Substitua termos agressivos por "necessidade de evidência".

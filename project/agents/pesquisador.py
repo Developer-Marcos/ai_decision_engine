@@ -7,7 +7,7 @@ def node_pesquisador(state: AgentState):
       ferramenta_de_pesquisa = TavilySearch(max_results=2)
       ferramentas = [ferramenta_de_pesquisa]
 
-      llm = instanciar_llm(modelo="gemini-2.5-flash", agent_name="pesquisador_ativo", temperature=0)
+      llm = instanciar_llm(modelo="gemini-2.5-flash-lite", agent_name="pesquisador_ativo", temperature=0)
       llm_com_ferramentas = llm.bind_tools(ferramentas)
 
       feedback = state.get("feedback_critico", "")
@@ -24,6 +24,8 @@ def node_pesquisador(state: AgentState):
             1. Use a ferramenta Tavily para buscar dados factuais.
             2. Analise os resultados. Se a informação estiver incompleta para um tópico do plano, faça uma nova busca com termos diferentes.
             3. Só finalize quando tiver dados suficientes para o Gerador avaliar (Demanda, Técnico, Financeiro, Competição).
+
+            Você PRECISA realizar ao menos uma busca para validar os dados do plano.
       """
 
       mensagens = [HumanMessage(content=prompt_sistema)]

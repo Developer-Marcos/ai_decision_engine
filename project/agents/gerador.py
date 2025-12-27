@@ -4,7 +4,6 @@ from langchain_core.messages import HumanMessage
 from pydantic import BaseModel, Field
 from typing import List
 
-
 class Viabilidade(BaseModel):
       nota: int = Field(description="Nota de 0 a 10 de viabilidade")
       justificativa: str = Field(description="Explicação detalhada baseada nos dados pesquisados")
@@ -44,6 +43,17 @@ def node_gerador(state: AgentState):
       """
 
       analise = llm_estruturada.invoke([HumanMessage(content=prompt)])
+      relatorio_consolidado = f"""
+            VEREDITO: {analise.veredito_final}
+
+            DETALHAMENTO POR PILAR:
+            - Mercado (Nota {analise.demanda_mercado.nota}): {analise.demanda_mercado.justificativa}
+            - Técnica (Nota {analise.viabilidade_operacional_tecnica.nota}): {analise.viabilidade_operacional_tecnica.justificativa}
+            - Financeira (Nota {analise.viabilidade_financeira.nota}): {analise.viabilidade_financeira.justificativa}
+            - Competição (Nota {analise.analise_competicao.nota}): {analise.analise_competicao.justificativa}
+
+            PONTOS DE ATENÇÃO GERAIS: {', '.join([item for pilar in [analise.demanda_mercado, analise.viabilidade_operacional_tecnica, analise.viabilidade_financeira, analise.analise_competicao] for item in pilar.pontos_atencao])}
+      """
 
       media = (
             analise.demanda_mercado.nota +
@@ -55,5 +65,5 @@ def node_gerador(state: AgentState):
       return {
             "notas_viabilidade": analise.model_dump(),
             "percentual_final": media*10,
-            "relatorio_final": analise.veredito_final
+            "relatorio_final": relatorio_consolidado
       }
