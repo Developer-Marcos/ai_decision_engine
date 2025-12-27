@@ -11,7 +11,7 @@ from project.core.grafo import criar_grafo
 def main():
       load_env()
 
-      pergunta_usuario = "Vale a pena abrir uma padaria no suburbio do rio de janeiro?"
+      pergunta_usuario = "Vale a pena criar um SaaS de agendamento e gestao para petshops pequenos com automacao de whatssap no brasil?"
       query_refinada = refinar_query(query=pergunta_usuario)
 
       state_inicial = {
@@ -30,10 +30,6 @@ def main():
 
       print("-" * 30)
       print(f"[Main] Execução Finalizada!")
-      print(f"Total de pesquisas coletadas: {len(resultado_final['conteudo_pesquisado'])}")
-
-      for i, item in enumerate(resultado_final['conteudo_pesquisado'], 1):
-            print(f" Fonte {i}: {item.get('query')}")
       
       
 if __name__ == "__main__":

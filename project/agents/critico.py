@@ -17,31 +17,51 @@ def node_critico(state: AgentState):
       llm_estruturada = llm.with_structured_output(AnaliseCritica)
 
       prompt = f"""
-            <persona>
-                  Você é um Investidor Senior e Crítico de Negócios. Seu papel é garantir a qualidade. Se os dados forem insuficientes, aponte o que falta de forma construtiva. Se a análise for aceitável como um estudo preliminar, aprove-a com ressalvas.
-            </persona>
+            <role>
+                  Você é um Mentor de Negócios e Analista de Riscos. 
+                  Sua missão é garantir que o relatório final reduza a incerteza para uma decisão de investimento.
+            </role>
 
-            <analise_a_ser_criticada>
-                  {state['relatorio_final']}
-                  Notas: {state['notas_viabilidade']}
-            </analise_a_ser_criticada>
+            <contexto_de_decisao>
+                  O usuário quer decidir sobre: {state['problema']}
+                  Relatório atual: {state['relatorio_final']}
+            </contexto_de_decisao>
 
-            <contexto_da_pesquisa>
-                  {state['conteudo_pesquisado']}
-            </contexto_da_pesquisa>
+            <logica_de_roteamento>
+                  Você deve decidir o 'destino' com base na natureza da falha:
+                  
+                  1. Mande para o 'pesquisador' quando:
+                  - O plano está bom, mas faltam dados factuais (ex: preços, concorrência local, valores de aluguel).
+                  - Os dados atuais são genéricos e precisam de números específicos do mundo real.
 
-            <instrucoes>
-                  1. Se a análise ignorou riscos óbvios ou dados financeiros, REPROVE.
-                  2. Se faltar apenas um dado pontual (ex: preço de um concorrente) ou alguns dados pontuais, envie para o 'pesquisador'.
-                  3. Se o plano de pesquisa foi mal executado ou a lógica de negócio está falha, envie para o 'planejador'.
-                  4. Só aprove e envie para o 'refinador' se você investiria seu próprio dinheiro nessa análise.
-            </instrucoes>
+                  2. Mande para o 'planejador' quando:
+                  - A estratégia proposta parece errada ou incompleta (ex: ignorou impostos, esqueceu custos de marketing, ou o modelo de negócio não faz sentido).
+                  - O foco da pesquisa está no lugar errado (ex: pesquisando padaria de luxo em bairro de baixa renda).
+                  - É necessário REESCREVER os tópicos do plano para abordar o problema por outro ângulo.
+
+                  3. Mande para o 'refinador' quando:
+                  - As lacunas restantes são aceitáveis para um estudo preliminar e os dados fundamentais já estão lá.
+                  - Se escolher este destino, use o campo 'instrucoes_de_correcao' para dizer ao Refinador como ele deve formatar este relatório (ex: 'Destaque a tabela de custos operacionais' ou 'Enfatize a análise da concorrência em Madureira').
+            </logica_de_roteamento>
+
+            <instrucoes_de_ouro>
+                  - Seja Específico: No campo 'instrucoes_de_correcao', se enviar para o Planejador, diga: "Adicione o tópico X ao plano". Se enviar para o Pesquisador, dê a query pronta.
+                  - Rigor Amigável: Substitua termos agressivos por "necessidade de evidência".
+            </instrucoes_de_ouro>
       """
 
       decisao = llm_estruturada.invoke([HumanMessage(content=prompt)])
 
-      return {
-            "feedback_critico": f"[{decisao.destino.upper()}] {decisao.critica_detalhada} | Ação: {decisao.instrucoes_de_correcao}",
-            "proximo_passo": decisao.destino
+      retorno = {
+            "proximo_passo": decisao.destino,
+            "iteracao_critica": 1,
+            "feedback_critico": "",
+            "instrucoes_refinamento": ""
       }
+
+      if decisao.destino == "refinador":
+            retorno["instrucoes_refinamento"] = decisao.instrucoes_de_correcao
+      else:
+            retorno["feedback_critico"] = f"[{decisao.destino.upper()}] {decisao.critica_detalhada} | Ação: {decisao.instrucoes_de_correcao}"
      
+      return retorno

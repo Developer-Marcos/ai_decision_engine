@@ -7,16 +7,23 @@ from project.core.estado import AgentState
 import base64
 
 def router_de_pesquisa(state: AgentState):
-      if len(state.get("conteudo_pesquisado", [])) > 0 and state.get("numero_iteracao", 0) < 3:
+      if len(state.get("conteudo_pesquisado", [])) > 0 and state.get("iteracao_pesquisa", 0) < 3:
             return "pesquisador"
       
       return "gerador"
 
 def router_pos_critica(state: AgentState):
-      if state.get("numero_iteracao", 0) >= 5:
+      print(f"DEBUG - Proximo Passo: {state.get('proximo_passo')}")
+      print(f"DEBUG - Iteração Crítica: {state.get('iteracao_critica')}")
+      if state.get("iteracao_critica", 0) >= 3:
             return "refinador"
       
-      return state.get("proximo_passo", "refinador")
+      destino = state.get("proximo_passo", "refinador").lower().strip()
+
+      if destino in ["planejador", "pesquisador", "refinador"]:
+           return destino
+      
+      return "refinador"
 
 def node_refinador_placeholder(state: AgentState):
     print("[Refinador] Polindo o relatório final...")

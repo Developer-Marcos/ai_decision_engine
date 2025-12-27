@@ -54,6 +54,7 @@ def node_planejador(state: AgentState):
       return {
             "plano": resposta.plano,
             "querys_de_pesquisa": resposta.querys_de_pesquisa,
-            "numero_iteracao": 1,
+            "iteracao_critica": 1,
+            "iteracao_pesquisa": -state.get("iteracao_pesquisa", 0),
             "feedback_critico": ""
       }

@@ -24,7 +24,6 @@ def node_pesquisador(state: AgentState):
             1. Use a ferramenta Tavily para buscar dados factuais.
             2. Analise os resultados. Se a informação estiver incompleta para um tópico do plano, faça uma nova busca com termos diferentes.
             3. Só finalize quando tiver dados suficientes para o Gerador avaliar (Demanda, Técnico, Financeiro, Competição).
-            4. Se o conteúdo pesquisado já contém o que você precisa, não chame a ferramenta novamente.
       """
 
       mensagens = [HumanMessage(content=prompt_sistema)]
@@ -52,6 +51,6 @@ def node_pesquisador(state: AgentState):
                         "conteudo": resultado_bruto
                   })
 
-            return {"conteudo_pesquisado": novos_resultados, "numero_iteracao": 1, "feedback_critico": ""}
+            return {"conteudo_pesquisado": novos_resultados, "iteracao_pesquisa": 1, "feedback_critico": ""}
       
-      return {"conteudo_pesquisado": [], "numero_iteracao": 0}
+      return {"conteudo_pesquisado": [], "iteracao_pesquisa": 1}
