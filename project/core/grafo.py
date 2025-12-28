@@ -5,8 +5,15 @@ from project.agents.pesquisador import node_pesquisador
 from project.agents.gerador import node_gerador
 from project.agents.critico import node_critico
 from project.agents.refinador import node_refinador
+from project.utils.chains_auxiliares import refinar_query
 from project.core.estado import AgentState
 import base64
+
+def node_refinar_query(state: AgentState):
+      query_original = state.get("problema", "")
+      query_refinada = refinar_query(query=query_original)
+
+      return {"problema": query_refinada}
 
 def router_guardrail(state: AgentState):
       if state.get("aprovado") is False:
@@ -21,8 +28,6 @@ def router_de_pesquisa(state: AgentState):
       return "gerador"
 
 def router_pos_critica(state: AgentState):
-      print(f"DEBUG - Proximo Passo: {state.get('proximo_passo')}")
-      print(f"DEBUG - Iteração Crítica: {state.get('iteracao_critica')}")
       if state.get("iteracao_critica", 0) >= 3:
             return "refinador"
       
@@ -71,6 +76,7 @@ def criar_grafo():
       processamento = sub_grafo_processamento()
 
       grafo_principal.add_node("guardrail", node_guardrail)
+      grafo_principal.add_node("melhorar_query", node_refinar_query)
       grafo_principal.add_node("processamento", processamento)
 
       grafo_principal.set_entry_point("guardrail")
@@ -80,10 +86,11 @@ def criar_grafo():
             router_guardrail,
             {
                   "Rejeitado": END,
-                  "Aprovado": "processamento"
+                  "Aprovado": "melhorar_query"
             }
       )
 
+      grafo_principal.add_edge("melhorar_query", "processamento")
       grafo_principal.add_edge("processamento", END)
 
       return grafo_principal.compile()

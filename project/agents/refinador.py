@@ -15,7 +15,7 @@ def node_refinador(state: AgentState):
 
       prompt = f"""
             <role>Especialista em Comunicação Executiva e Design de Informação</role>
-            
+                  
             <contexto>
                   Você recebeu um relatório bruto de viabilidade e deve polir para a entrega final.
                   Problema: {state['problema']}
@@ -32,12 +32,15 @@ def node_refinador(state: AgentState):
             </diretriz_de_estilo>
 
             <missao>
-                  Organize os dados brutos no formato estruturado solicitado.
-                  No 'veredito_final', integre a pontuação de {state['percentual_final']}% com a recomendação (Investir/Não Investir/Cautela).
-                  No 'detalhamento_notas', explique os valores: {state['notas_viabilidade']} em tópicos.
+                  Organize os dados brutos no formato estruturado solicitado (Pydantic).
+                        
+                  1. 'veredito_final': Uma frase de impacto começando com o status (Investir/Não Investir/Cautela) seguido do score {state['percentual_final']}% e justificativa curta.
+                  2. 'detalhamento_notas': Transforme as notas {state['notas_viabilidade']} em uma LISTA de strings. Cada item deve seguir o padrão: "Pilar (Nota X): Explicação concisa".
+                  3. 'matriz_riscos': Extraia uma LISTA de strings com as principais ameaças, sem parágrafos longos.
+                  4. 'conclusao_e_proximos_passos': Transforme as recomendações em uma LISTA de ações práticas e sequenciais.
             </missao>
- 
-            Gere o relatório final polido:
+
+            Gere o relatório final polido seguindo rigorosamente a estrutura de listas para os campos de notas, riscos e conclusões:
       """
 
       resposta = llm_estruturada.invoke(prompt)

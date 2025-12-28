@@ -95,3 +95,4 @@ def refinar_query(query: str) -> str:
       chain_refinamento = prompt | llm | StrOutputParser()
 
       return chain_refinamento.invoke({"query_bruta": frase})
+

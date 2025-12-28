@@ -47,6 +47,10 @@ def node_planejador(state: AgentState):
             <task>
             Com base no contexto, nas diretrizes no feedback (se houver), crie o plano de tópicos 
             e as novas queries de pesquisa para o Tavily que tragam dados mais profundos.
+
+            IMPORTANTE: Seu output deve ser um JSON com EXATAMENTE estas duas chaves:
+            1. 'plano': lista de passos.
+            2. 'querys_de_pesquisa': lista de termos para busca.
             </task>
       """
 
