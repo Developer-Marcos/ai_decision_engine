@@ -177,3 +177,7 @@ Quando habilitado, todo o fluxo de execução pode ser acompanhado no LangSmith.
 
 ![TelaRelatorio1](images/relatorio1.png)
 ![TelaRelatorio2](images/relatorio2.png)
+
+<hr>
+
+###### Mais detalhes podem ser vistos dentro do código.
