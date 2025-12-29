@@ -169,6 +169,11 @@ Quando habilitado, todo o fluxo de execução pode ser acompanhado no LangSmith.
 
 #### Fotos da interface em ordem de execução:
 ![TelaInput](images/input.png)
+<hr>
+
 ![TelaProcessamento](images/processamento.png)
+
+<hr>
+
 ![TelaRelatorio1](images/relatorio1.png)
 ![TelaRelatorio2](images/relatorio2.png)
