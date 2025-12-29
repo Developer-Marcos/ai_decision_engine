@@ -160,7 +160,7 @@ python -m project.main
 
 <hr>
 
-###### Como usar:
+#### Como usar:
 Após a execução, o sistema solicitará uma ideia como entrada e iniciará o fluxo de análise utilizando o grafo de raciocínio multiagente. Ao final do processamento, um relatório estruturado sobre a viabilidade da ideia será exibido no terminal.
 
 Quando habilitado, todo o fluxo de execução pode ser acompanhado no LangSmith.
