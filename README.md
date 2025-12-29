@@ -97,8 +97,78 @@ graph LR;
   
 <hr>
 
-# (Execute em project/)
-### Ative o venv
-.venv\Scripts\Activate.ps1
-### Rodar o projeto 
+### Como configurar?
+Clone e entre no repositório:
+```
+git clone https://github.com/Developer-Marcos/sistema-de-pesquisa-web-inteligente.git
+```
+```
+cd ai_decision_engine/project
+```
+
+<hr>
+
+Crie e ative o ambiente virtual:
+###### Criando o ambiente virtual (Windows & Linux/macOS)
+```
+python -m venv .venv
+```
+###### Acessando por Linux/macOS
+```
+source .venv/bin/activate.ps1
+```
+###### Acessando pelo Windows
+```
+.venv\Scripts\activate.ps1
+```
+
+<hr>
+
+Instale as dependências do projeto:
+```
+pip install -r requirements.txt
+```
+
+<hr>
+
+Crie o .env em /project/config com as suas chaves: 
+```
+GOOGLE_API_KEY = sua chave de API do Gemini
+TAVILY_API_KEY = sua chave de API do Tavily
+```
+
+<hr>
+
+###### Opcional
+#### Observabilidade com o LangSmith: 
+Basta colocar as variáveis do LangSmith no .env:
+```
+LANGSMITH_API_KEY = sua_api_key
+LANGCHAIN_TRACING_V2= true
+LANGCHAIN_ENDPOINT= https://api.smith.langchain.com
+LANGCHAIN_PROJECT= ai-decision-engine
+```
+![LangSmith](https://img.shields.io/badge/-LangSmith-%231C3C3C?style=flat-square&logo=langchain&logoColor=white)
+
+<hr>
+
+#### Executando o projeto:
+###### Execute o comando pelo terminal na raiz do projeto: ai-decision-engine/
+```
 python -m project.main
+```
+
+<hr>
+
+###### Como usar:
+Após a execução, o sistema solicitará uma ideia como entrada e iniciará o fluxo de análise utilizando o grafo de raciocínio multiagente. Ao final do processamento, um relatório estruturado sobre a viabilidade da ideia será exibido no terminal.
+
+Quando habilitado, todo o fluxo de execução pode ser acompanhado no LangSmith.
+
+<hr>
+
+#### Fotos da interface em ordem de execução:
+![TelaInput](images/input.png)
+![TelaProcessamento](images/processamento.png)
+![TelaRelatorio1](images/relatorio1.png)
+![TelaRelatorio2](images/relatorio2.png)
