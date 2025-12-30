@@ -1,5 +1,5 @@
 # ai_decision_engine
-###### Motor de tomada de decisão baseado em arquitetura multiagente com LangGraph e LangChain.
+###### Motor de tomada de decisão baseado em arquitetura multiagente com LangGraph e LangChain. (Resultado no final do README)
 Ao receber uma ideia, o sistema utiliza uma arquitetura de raciocínio multiagente para analisá-la e gerar um relatório estruturado sobre sua viabilidade. Ao final do processo, os resultados são retornados ao usuário de forma organizada, com suporte a rastreabilidade e análise dos agentes por meio do LangSmith.
 
 <hr>
