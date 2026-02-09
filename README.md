@@ -97,6 +97,31 @@ graph LR;
   
 <hr>
 
+### Rodando com Docker (Recomendado)
+
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+
+Para facilitar o teste da aplicação sem a necessidade de configurar um ambiente Python local, você pode utilizar o Docker.
+
+###### Assim o projeto inicializa so de rodar a imagem 
+Crie o .env em /project/config com as suas chaves: 
+```
+GOOGLE_API_KEY = sua chave de API do Gemini
+TAVILY_API_KEY = sua chave de API do Tavily
+```
+Construa a imagem:
+```
+docker build -t ai-decision-engine .
+```
+Execute o container:
+```
+docker run -it --rm --env-file project/config/.env ai-decision-engine
+```
+
+Assim o projeto roda de forma direta, sem precisar de mais nenhuma config.
+
+<hr>
+
 ### Como configurar?
 Clone e entre no repositório:
 ```
