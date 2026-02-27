@@ -125,7 +125,7 @@ Assim o projeto roda de forma direta, sem precisar de mais nenhuma config.
 ### Como configurar?
 Clone e entre no repositório:
 ```
-git clone https://github.com/Developer-Marcos/sistema-de-pesquisa-web-inteligente.git
+git clone https://github.com/Developer-Marcos/ai_decision_engine
 ```
 ```
 cd ai_decision_engine/project
